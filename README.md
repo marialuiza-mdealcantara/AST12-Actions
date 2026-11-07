@@ -1,5 +1,7 @@
 # AST12 — Implementando Integração Contínua (CI) com GitHub Actions
 
+[![CI - Testes da API](https://github.com/marialuiza-mdealcantara/AST12-Actions/actions/workflows/ci.yml/badge.svg)](https://github.com/marialuiza-mdealcantara/AST12-Actions/actions/workflows/ci.yml)
+
 Repositório referente à atividade prática **AST12 — Implementando Integração Contínua (CI) com GitHub Actions** da disciplina de **Automação de Testes de Software (ATS)** — Faculdade Impacta.
 
 - **Repositório GitHub:** https://github.com/marialuiza-mdealcantara/AST12-Actions
@@ -7,7 +9,13 @@ Repositório referente à atividade prática **AST12 — Implementando Integraç
 
 ---
 
-## 1. Objetivo do Projeto
+## 1. Nome da Atividade
+
+**AST12 — Implementando Integração Contínua (CI) com GitHub Actions**
+
+---
+
+## 2. Objetivo do Projeto
 
 Construir uma API RESTful em Python utilizando **FastAPI** e configurar um pipeline completo de **Integração Contínua (CI)** com **GitHub Actions** que:
 
@@ -19,7 +27,7 @@ Construir uma API RESTful em Python utilizando **FastAPI** e configurar um pipel
 
 ---
 
-## 2. Descrição da API
+## 3. Descrição da API
 
 A API está implementada no arquivo `main.py` e disponibiliza três rotas HTTP `GET`:
 
@@ -31,7 +39,7 @@ A API está implementada no arquivo `main.py` e disponibiliza três rotas HTTP `
 
 ---
 
-## 3. Tecnologias Utilizadas
+## 4. Tecnologias Utilizadas
 
 - **Python** (`3.10`, `3.11`, `3.12+`) — Linguagem de programação principal.
 - **FastAPI** (`fastapi[standard]`) — Framework web de alta performance para construção de APIs e CLI (`fastapi-cli` / `uvicorn`).
@@ -43,7 +51,7 @@ A API está implementada no arquivo `main.py` e disponibiliza três rotas HTTP `
 
 ---
 
-## 4. Estrutura de Diretórios
+## 5. Estrutura de Diretórios
 
 ```text
 AST12-Actions/
@@ -59,7 +67,7 @@ AST12-Actions/
 
 ---
 
-## 5. Pré-requisitos
+## 6. Pré-requisitos
 
 - **Python 3.10 ou superior** instalado (com opção `Add Python to PATH` marcada).
 - **Git** instalado e configurado.
@@ -67,7 +75,7 @@ AST12-Actions/
 
 ---
 
-## 6. Criando e Ativando o Ambiente Virtual no Windows PowerShell
+## 7. Instruções para Criar e Ativar o Ambiente Virtual no Windows PowerShell
 
 Abra o terminal **PowerShell** na pasta raiz do projeto e execute:
 
@@ -86,7 +94,7 @@ python -m venv .venv
 
 ---
 
-## 7. Instalação das Dependências
+## 8. Instalação das Dependências
 
 Com o ambiente virtual `.venv` ativado, atualize o `pip` e instale os pacotes do arquivo `requirements.txt`:
 
@@ -102,7 +110,7 @@ As dependências instaladas a partir do `requirements.txt` são:
 
 ---
 
-## 8. Como Executar a API Localmente
+## 9. Como Executar a API Localmente
 
 Para iniciar a API localmente em modo de desenvolvimento (com *auto-reload*):
 
@@ -124,9 +132,9 @@ Após iniciar o servidor, você pode acessar no navegador ou via terminal:
 
 ---
 
-## 9. Como Executar os Testes Automatizados
+## 10. Como Executar os Testes
 
-Para executar todos os testes definidos em `test_main.py`:
+Para executar todos os testes automatizados definidos em `test_main.py`:
 
 ```powershell
 pytest test_main.py -v
@@ -142,14 +150,17 @@ pytest test_main.py -v
 
 ---
 
-## 10. Explicação do Workflow do GitHub Actions (`.github/workflows/ci.yml`)
+## 11. Explicação do Workflow do GitHub Actions (`.github/workflows/ci.yml`)
 
 O pipeline de Integração Contínua está definido em `.github/workflows/ci.yml` sob o nome **`CI - Testes da API`**.
 
 - **Gatilhos (`on: [push, pull_request]`):** O workflow é disparado automaticamente sempre que um novo código é enviado (`git push`) ou quando um Pull Request é aberto ou atualizado no repositório.
 - **Runner (`runs-on: ubuntu-latest`):** Cada execução acontece em uma máquina virtual Linux Ubuntu limpa fornecida pelo GitHub.
 
-### 10.1. O Job `verificar-api`
+---
+
+## 12. Explicação do Job `verificar-api`
+
 O Job principal do pipeline possui o identificador exato **`verificar-api`**. Esse nome é utilizado nas regras de proteção da branch `main` (*Required status checks*) para garantir que nenhum código seja integrado sem antes passar por todas as etapas deste Job:
 
 1. **Checkout do repositório (`actions/checkout@v4`):** Clona o código do repositório para dentro do Runner.
@@ -160,7 +171,7 @@ O Job principal do pipeline possui o identificador exato **`verificar-api`**. Es
 
 ---
 
-## 11. Explicação da Strategy Matrix
+## 13. Explicação da Strategy Matrix
 
 Para garantir compatibilidade em diferentes ambientes de produção sem duplicar o código YAML, o Job `verificar-api` utiliza o recurso **`strategy.matrix`**:
 
@@ -187,7 +198,7 @@ Com isso, o GitHub Actions clona o Job automaticamente em **3 Runners paralelos 
 
 ---
 
-## 12. Explicação do Teste de Integração com `curl`
+## 14. Explicação do Teste de Integração com `curl`
 
 Enquanto os testes com `TestClient` do FastAPI simulam requisições em memória, o último passo do pipeline executa um **teste de integração real (caixa-preta)** dentro do Runner:
 
@@ -211,26 +222,36 @@ Enquanto os testes com `TestClient` do FastAPI simulam requisições em memória
 
 ---
 
-## 13. Explicação do Fluxo de Pull Requests e Simulações Pedagógicas
+## 15. Explicação do Fluxo de Pull Requests e Simulações Pedagógicas
 
 Durante a atividade, foram realizadas duas simulações práticas de falha para comprovar o papel do CI como "Guarda-Costas" do repositório:
 
-1. **Simulação 1 — Erro direto na `main` (Parte 2):**
-   - **Ação:** A função `somar` em `main.py` foi alterada propositalmente para subtrair (`return {"resultado": a - b}`).
-   - **Propósito pedagógico:** Observar o GitHub Actions detectar a regressão imediatamente e diagnosticar o erro pelos logs do passo `Rodar Testes` (`AssertionError: assert {'resultado': 2} == {'resultado': 8}`).
-   - **Resolução:** A função foi restaurada para `a + b` e o pipeline voltou ao estado verde (`✅`).
+### 15.1. Simulação 1 — Erro direto na `main` (Parte 2 do PDF)
+- **Ação realizada:** A função `somar` em `main.py` foi alterada propositalmente para subtrair (`return {"resultado": a - b}`) no commit `38c8f57`.
+- **Propósito pedagógico:** Observar o GitHub Actions detectar a regressão imediatamente (`Run #2`) e diagnosticar o erro real pelos logs do passo `Rodar Testes`.
+- **Diagnóstico obtido nos logs do Runner:**
+  - **Qual foi a mensagem exata de erro que o Pytest imprimiu?**
+    `AssertionError: assert {'resultado': 2} == {'resultado': 8}` (em `test_somar_positivos`) e `AssertionError: assert {'resultado': -2} == {'resultado': -8}` (em `test_somar_negativos`).
+  - **O que ele esperava receber e o que ele recebeu de fato?**
+    Para `/somar/5/3`, o teste esperava receber `{'resultado': 8}` (`5 + 3`), mas recebeu de fato `{'resultado': 2}` (`5 - 3`).
+- **Resolução:** A função foi restaurada para `a + b` no commit `2298ed7` e o pipeline voltou ao estado verde (`Run #3`).
 
-2. **Simulação 2 — Proteção de Branch e Pull Request Bloqueado (Parte 3):**
-   - **Ação:** A branch `main` foi protegida exigindo Pull Request e aprovação do status check `verificar-api`. Na branch `feature-multiplicacao`, o teste `test_multiplicar` foi configurado para esperar um valor incorreto (`2 * 2 == 5`) e o Pull Request #1 foi aberto.
-   - **Propósito pedagógico:** Comprovar que o GitHub bloqueia o botão de **Merge pull request** quando o check `verificar-api` falha, impedindo que código quebrado chegue à branch principal.
-   - **Resolução:** O teste foi corrigido para esperar `4` na mesma branch (`feature-multiplicacao`), o PR atualizou automaticamente, os checks ficaram verdes e o merge para a `main` foi liberado e concluído.
+### 15.2. Simulação 2 — Proteção de Branch e Pull Request Bloqueado (Parte 3 do PDF)
+- **Ação realizada:** A branch `main` foi protegida em *Settings > Branches* exigindo Pull Request (`Require a pull request before merging`) e aprovação obrigatória do status check `verificar-api` (`Require status checks to pass before merging`). Na branch `feature-multiplicacao`, o teste `test_multiplicar` foi configurado para esperar um valor incorreto (`2 * 2 == 5`) no commit `153be56` e o [Pull Request #1](https://github.com/marialuiza-mdealcantara/AST12-Actions/pull/1) foi aberto.
+- **Propósito pedagógico:** Comprovar que o GitHub bloqueia o botão de **Merge pull request** (`All checks have failed`) quando o check `verificar-api` falha, impedindo que código quebrado chegue à branch principal.
+- **Resolução:** O teste foi corrigido para esperar `4` na mesma branch (`feature-multiplicacao`, commit `e058258`), o Pull Request #1 atualizou automaticamente, os checks ficaram verdes (`All checks have passed`) e o merge para a `main` foi liberado e concluído (`commit 69c0892`).
 
 ---
 
-## 14. Histórico das Etapas da Atividade
+## 16. Histórico das Etapas da Atividade
 
-- [x] **Parte 1 — Preparação:** Criação do repositório, ambiente virtual `.venv`, API FastAPI (`main.py`), testes com Pytest (`test_main.py`), workflow inicial (`.github/workflows/ci.yml`) e primeira execução verde no GitHub Actions (`Run #1`).
-- [x] **Parte 2 — O Dia em que a Produção Quase Caiu (Simulando um Erro):** Introdução de erro intencional na rota de soma (`a - b`), execução vermelha no GitHub Actions (`Run #2`), diagnóstico nos logs do Pytest e restauração da soma (`Run #3`).
-- [x] **Parte 3 — Trabalhando como Profissional (Pull Requests):** Configuração de *Branch Protection Rule* na `main` exigindo o status check `verificar-api`, criação da branch `feature-multiplicacao` com teste falhando, verificação do bloqueio de merge no **Pull Request #1**, correção do teste e merge após CI verde.
-- [x] **Parte 4 — Evoluindo o Pipeline (Strategy Matrix):** Configuração de `strategy.matrix` para testar simultaneamente nas versões Python `3.10`, `3.11` e `3.12`.
-- [x] **Parte 5 — O Teste de Integração (Rodando a API no Runner):** Adição do passo de inicialização da API em background (`fastapi run main.py --port 8000 &`) e validação de caixa-preta com `curl -f` nas 3 versões do Python.
+| Etapa | Descrição | Commit / Referência | Status no CI |
+| :--- | :--- | :--- | :--- |
+| **Parte 1** | Criação da API FastAPI, testes iniciais e pipeline inicial do GitHub Actions | `3a079c8` / `8b037ad` ([Run #1](https://github.com/marialuiza-mdealcantara/AST12-Actions/actions/runs/42410142429)) | ✅ Verde (`success`) |
+| **Parte 2 (Erro)** | Simulação de erro intencional na rota de soma (`a - b`) na branch `main` | `38c8f57` ([Run #2](https://github.com/marialuiza-mdealcantara/AST12-Actions/actions/runs/42410512828)) | ❌ Falha esperada (`failure`) |
+| **Parte 3 (Fix main)** | Restauração da operação correta de soma (`a + b`) na branch `main` | `2298ed7` ([Run #3](https://github.com/marialuiza-mdealcantara/AST12-Actions/actions/runs/42410840076)) | ✅ Verde (`success`) |
+| **Parte 3 (PR Erro)** | Branch `feature-multiplicacao` com teste falhando (`2 * 2 == 5`) e bloqueio no PR #1 | `153be56` ([PR #1](https://github.com/marialuiza-mdealcantara/AST12-Actions/pull/1) / [Run #5](https://github.com/marialuiza-mdealcantara/AST12-Actions/actions/runs/42417531358)) | ❌ Merge bloqueado (`failure`) |
+| **Parte 3 (PR Fix)** | Correção do teste (`2 * 2 == 4`) na branch `feature-multiplicacao` e Merge do PR #1 | `e058258` / `69c0892` ([Run #7](https://github.com/marialuiza-mdealcantara/AST12-Actions/actions/runs/42417760748)) | ✅ Verde e Merged (`success`) |
+| **Parte 4** | Evolução do pipeline com `strategy.matrix` para Python `3.10`, `3.11` e `3.12` | `b929b92` ([Run #9](https://github.com/marialuiza-mdealcantara/AST12-Actions/actions/runs/42418058351)) | ✅ Verde nos 3 ambientes |
+| **Parte 5** | Adição do teste de integração (caixa-preta) subindo a API no Runner com `curl -f` | `270c417` ([Run #10](https://github.com/marialuiza-mdealcantara/AST12-Actions/actions/runs/42418220937)) | ✅ Verde nos 3 ambientes |
+| **Documentação** | Documentação final detalhada da atividade AST12 no `README.md` | `01606b7` ([Run #11](https://github.com/marialuiza-mdealcantara/AST12-Actions/actions/runs/42418312485)) | ✅ Verde nos 3 ambientes |
