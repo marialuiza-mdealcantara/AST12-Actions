@@ -30,7 +30,7 @@ def test_somar_negativos():
 def test_multiplicar():
     response = client.get("/multiplicar/2/2")
     assert response.status_code == 200
-    assert response.json() == {"resultado": 5}
+    assert response.json() == {"resultado": 4}
 
 
 def test_multiplicar_por_zero():
