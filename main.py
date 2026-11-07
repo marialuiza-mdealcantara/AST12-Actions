@@ -14,8 +14,8 @@ def read_root():
 
 @app.get("/somar/{a}/{b}")
 def somar(a: int, b: int):
-    # Retorna a soma de dois números inteiros
-    return {"resultado": a + b}
+    # ERRO INTENCIONAL AQUI: altere de + para -
+    return {"resultado": a - b}
 
 
 @app.get("/multiplicar/{a}/{b}")
